@@ -1,0 +1,68 @@
+/*GENERIC STYLES*/
+
+.box {
+    display: block;
+}
+
+.display-hidden {
+    display: none;
+}
+
+.clear-fix {
+    clear: both;
+}
+
+.button {
+    display: block;
+    padding: 0 7px;
+    cursor: pointer;
+    font-weight: bold;
+    text-align: center;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.auto-margin-container {
+    margin: 0 auto;
+}
+
+.min-resolution {
+    width: 800px;
+}
+
+.important-color {
+    color: #DE737C;
+}
+
+.uppercase {
+    text-transform: uppercase;
+}
+
+.menu {
+    display: block;
+    list-style: none;
+}
+
+.menu > .menu-item {
+    display: block;
+    float: left;
+}
+
+.menu > .adm-menu-item {
+    display: block;
+    float: left;
+}
+
+.left-alignment {
+    float: left;
+}
+
+.right-alignment {
+    float: right;
+}
