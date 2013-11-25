@@ -3,8 +3,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
     if (cardContainer.addEventListener) {
         cardContainer.addEventListener('click', toggleClass, false);
-    }
-    else{
+    }else{
         cardContainer.attachEvent('onclick', toggleClass);
     }
 });
