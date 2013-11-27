@@ -33,7 +33,6 @@ var posts = function(app, register, router){
 	register(router, app.post);
 }
 
-
 exports.do = function(app, register){
 	gets(app, register, new Router());
 	posts(app, register, new Router());
