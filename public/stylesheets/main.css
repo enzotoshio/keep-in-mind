@@ -234,7 +234,8 @@ body {
 .three-d-button {
     width: auto;
     float: left;
-    line-height: 40px;
+    line-height: 43px;
+    height: 40px;
     position: relative;
     overflow: hidden;
     margin: 2px 0 0 10px;
@@ -246,9 +247,9 @@ body {
     background-image: -ms-linear-gradient(top, #ef5f05, #c74f04);
     background-image: -o-linear-gradient(top, #ef5f05, #c74f04);
     text-shadow: #951503 2px 2px 0px;
-    -webkit-box-shadow: inset 0px 1px 0px #DB5705, 0px 4px 0px 0px #951503, 0px 6px 5px rgba(0,0,0,0.7);
-    -moz-box-shadow: inset 0px 1px 0px #DB5705, 0px 4px 0px 0px #951503, 0px 6px 5px rgba(0,0,0,0.7);
-    box-shadow: inset 0px 1px 0px #DB5705, 0px 4px 0px 0px #951503, 0px 6px 5px rgba(0,0,0,0.7);
+    -webkit-box-shadow: inset 0px 0px 0px #DB5705, 0px 4px 0px 0px #951503, 0px 6px 5px rgba(0,0,0,0.7);
+    -moz-box-shadow: inset 0px 0px 0px #DB5705, 0px 4px 0px 0px #951503, 0px 6px 5px rgba(0,0,0,0.7);
+    box-shadow: inset 0px 0px 0px #DB5705, 0px 4px 0px 0px #951503, 0px 6px 5px rgba(0,0,0,0.7);
     border-top: 1px solid #fa8841;
     border-bottom: 1px solid #db5705;
     -webkit-transition: all .1s ease;
@@ -259,9 +260,9 @@ body {
 }
 
 .three-d-button:active {
-    -webkit-box-shadow: inset 0px 1px 0px #DB5705, 0px 2px 0px 0px #951503, 0px 3px 6px rgba(0,0,0,.9);
-    -moz-box-shadow: 0px 3px 0px #DB5705, 0px 2px 6px rgba(0,0,0,.9);
-    box-shadow: inset 0px 1px 0px #DB5705, 0px 2px 0px 0px #951503, 0px 3px 6px rgba(0,0,0,0.9);
+    -webkit-box-shadow: inset 0px 0px 0px #DB5705, 0px 2px 0px 0px #951503, 0px 3px 6px rgba(0,0,0,.9);
+    -moz-box-shadow: inset 0px 0px 0px #DB5705, 0px 2px 0px 0px #951503, 0px 3px 6px rgba(0,0,0,.9);
+    box-shadow: inset 0px 0px 0px #DB5705, 0px 2px 0px 0px #951503, 0px 3px 6px rgba(0,0,0,.9);
     position: relative;
     top: 2px;
 }
