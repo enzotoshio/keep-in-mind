@@ -29,7 +29,7 @@ if ('development' == app.get('env')) {
 
 routes.do(app, function(router, verb){
 	router.each(function(route){
-		verb.call(app, route.from, function(req, res){
+		route.verb.call(app, route.from, function(req, res){
 			res.render(route.to, route.params);
 		});
 	});
