@@ -10,9 +10,8 @@ jQuery.fn.extend({
 
 $('.card-container').socketBind("click", "flip", function(){
     $('.card-container').toggleClass("flip");
-	console.log('flipei');
 }, function(){
-	socket.emit("send-flip");
+	socket.emit("flipped");
 });
 
 
