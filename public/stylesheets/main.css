@@ -81,7 +81,7 @@ body {
     cursor: pointer;
 }
 
-.arrow-container:active {
+.arrow-container:active, .arrow-container-active {
     box-shadow: 0px 0px 3px #000000;
     top: 41%;
 }

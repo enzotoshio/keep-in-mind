@@ -1,3 +1,39 @@
+var Card = function() {
+  var containerClass = ".card-container";
+  var activeArrowContainer = "arrow-container-active";
+
+  var flip = function() {
+    $(containerClass).toggleClass("flip");
+  };
+
+  var getCard = function(nextOrPrevious) {
+
+  };
+
+  var animateArrow = function(direction) {
+    var clickedArrowClass = '.' + direction + '-arrow-container';
+    $(clickedArrowClass).toggleClass(activeArrowContainer);
+    setTimeout(function() {
+      $(clickedArrowClass).toggleClass(activeArrowContainer);
+    }, 200);
+  };
+
+  var nextCardByKey = function() {
+    animateArrow('right');
+  };
+
+  var previousCardByKey = function() {
+    animateArrow('left');
+  };
+
+  return {
+    flip: flip,
+    containerClass: containerClass,
+    nextCardByKey: nextCardByKey,
+    previousCardByKey: previousCardByKey,
+  }
+}();
+
 var socket = io.connect(document.URL);
 
 jQuery.fn.extend({
@@ -8,8 +44,8 @@ jQuery.fn.extend({
 	}
 });
 
-$('.card-container').socketBind("click", "flip", function(){
-    $('.card-container').toggleClass("flip");
+$(Card.containerClass).socketBind("click", "flip", function(){
+    Card.flip();
 }, function(){
 	socket.emit("flipped");
 });
