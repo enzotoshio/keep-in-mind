@@ -1,6 +1,6 @@
 var Card = function() {
   var containerClass = ".card-container";
-  var activeArrowContainer = "arrow-container-active";
+  var activeArrowContainer = "arrow-container-active"; 
 
   var flip = function() {
     $(containerClass).toggleClass("flip");
