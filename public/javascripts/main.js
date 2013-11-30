@@ -15,10 +15,12 @@ $(document).ready(function() {
 		showDropdown(event, this, "registration-dropdown");
 	});
 
-	$(document).on('click', function(event) {
-		if($('.active-dropdown').length > -1) {
+	$('body').on('click', function(event) {
+		event.stopPropagation();
+		var dropdownContainer = $('.active-dropdown');
+		var dropdownContainerChildren = $('.active-dropdown *');
+		if(dropdownContainer.length > -1 && !dropdownContainer.is(event.target) && !dropdownContainerChildren.is(event.target)) {
 			$('.dropdown').removeClass('active-dropdown');
-			event.stopPropagation();
 		}
 	})
 });
