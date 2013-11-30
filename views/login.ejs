@@ -1,16 +1,24 @@
 <%include header.ejs%>
-    <header class="main-header">
-        <section class="main-logo-container">
-            <div class="main-logo">Keep in Mind</div>
-        </section>
-        <section class="controls">
-            <div class="button three-d-button">+Add Card</div>
-            <div class="button three-d-button">See All Cards</div>
-        </section>
-    </header>
-    <main class="content">
-        <section class="main-content auto-margin-container min-resolution">
-            <form action="/login">
-        </section>
-    </main>
+	<header class="main-header">
+		<section class="main-logo-container">
+			<div class="main-logo">Keep in Mind</div>
+		</section>
+		<section class="controls">
+			<a href="#" class="login-button">Login</a>
+		</section>
+		<section class="dropdown registration-dropdown">
+			<form action="/login" class="login-form">
+				<label class="form-line">Email</label>
+				<input type="text" name="registrationEmail" class="text-field form-line" />
+				<label class="form-line">Password</label>
+				<input type="password" name="registrationPassword" class="text-field form-line" />
+				<button class="button three-d-button sign-in-button">Sign in</button>
+			</form>
+		</section>
+	</header>
+	<main class="content">
+		<section class="main-content auto-margin-container min-resolution">
+			
+		</section>
+	</main>
 <%include footer.ejs%>
