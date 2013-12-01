@@ -435,10 +435,11 @@ body {
 }
 
 .home-subtitle {
-	font-size: 2.8em;
+	font-size: 2em;
 	text-shadow: 1px 1px 3px #000000;
 	line-height: 1em;
 	margin-bottom: 15px;
+	letter-spacing: 1px;
 }
 
 .registration-container {
