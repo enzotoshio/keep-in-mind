@@ -26,6 +26,7 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    letter-spacing: 1px;
 }
 
 .auto-margin-container {
