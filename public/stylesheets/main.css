@@ -13,12 +13,14 @@ body {
 	padding: 10px;
 }
 
-.main-logo-container {
-	text-decoration: none;
+.main-logo {
+	display: inline-block;
 	height: 50px;
-	width: 50px;
-	overflow: hidden;
-	line-height: 60px;
+	font-size: 2em;
+	font-weight: bold;
+	color: #FFFFFF;
+	text-decoration: none;
+	line-height: 50px;
 	float: left;
 	-webkit-user-select: none;
 	-khtml-user-select: none;
@@ -27,12 +29,13 @@ body {
 	user-select: none;
 }
 
-.main-logo {
-	display: inline-block;
-	width: 50px;
-	height: 50px;
-	text-indent: -9999px;
-	background: url('../images/logo.jpg') #fff;
+.main-logo:hover {
+	cursor: pointer;
+	text-shadow: 0px 0px 10px #FFFFFF;
+}
+
+.main-logo span {
+	font-weight: normal;
 }
 
 .controls {
@@ -104,15 +107,6 @@ body {
 	border-bottom: 40px solid transparent;
 	border-radius: 2px;
 }
-
-/*.arrow:before {
-	width: 10px;
-	height: 40px;
-	position: absolute;
-	top: 33%;
-	content: '';
-	background-color: #FFFFFF;
-}*/
 
 .left-arrow {
 	border-right: 40px solid #FFFFFF;
