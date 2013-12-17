@@ -5,6 +5,7 @@
 
 var express = require('express');
 var controller = require('./framework/controller');
+var router = require('./framework/router').router;
 var http = require('http');
 var path = require('path');
 var app = express();
@@ -35,13 +36,14 @@ exports.bootstrap = function(){
 	  app.use(express.errorHandler());
 	}
 
-	controller.registerAll(app, function(route){
-		route.verb.call(app, route.from, function(req, res){
-			console.log("registrando rota: "+ route.from + "->" + route.to);
-			route.action();
-			res.render(route.to);
+	controller.registerAll(app, function(){
+		router.each(function(route){
+			route.verb.call(app, route.from, function(req, res){
+				route.action();
+				res.render(route.to);
+			});
 		});
-	});
+	})
 
 
 	io.enable("browser client minification");

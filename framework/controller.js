@@ -1,40 +1,43 @@
 var fs = require('fs');
 var router = require('./router').router;
 
-var Action = function(app, controllerName, router){
+var Action = function(app, controllerName){
 	var itsGet = app.get;
 	var controllerName = controllerName;
+	var actionData = {};
 
 	var get = function(data, actionName, action){
 		//data is optional
+		actionData = data;
 		if(typeof action === 'undefined'){
 			action = actionName;
 			actionName = data;
-			data = {};
+			actionData = {};
 		}
 
-		data.action = action;
-		data.verb = itsGet;
-		path(data, controllerName, actionName);
+		var defaultFrom = "/"+controllerName.toLowerCase()+"/"+actionName;
+
+		actionData.from = defaults(data.from, defaultFrom);
+		actionData.to = defaults(data.to, actionName);
+		actionData.action = action;
+		actionData.verb = itsGet;
+
 	};
 
-	var path = function(data, controllerName, actionName){
-		router.routeFor(data, controllerName, actionName);
+	defaults = function(received, defaultValue){
+		if(typeof received === 'undefined'){
+			return defaultValue;
+		}
+		return received;
 	};
 
 	return {
-		get: get
+		get: get,
+		data: function(){
+			return actionData;
+		} 
 	}
 
-}
-
-var Controller = function(action){
-	var create = function(callback){
-		callback(action);
-	};
-	return {
-		create : create
-	}	
 }
 
 var ControllerManager = function(){
@@ -44,12 +47,15 @@ var ControllerManager = function(){
 	var registerAll = function(app, callback){
 		findControllers("./controllers", function (controllers) {
 			for (var i = 0; i < controllers.length; i++) {
-				var controller = controllers[i];
-				console.log('registrando: '+controller)
-				register(app, controller);
+				var controllerFileData = controllers[i];
+				var action = new Action(app, controllerFileData.name);
+				
+				//Configuring user actions
+				var controllerFile = require('.'+controllerFileData.absolute);
+				controllerFile.controller(action);
+				router.register(action);
 			};
-
-			router.each(callback);
+			callback();
 		});
 	};
 
@@ -64,7 +70,7 @@ var ControllerManager = function(){
 					var stats = fs.statSync(file);
 					if(!stats.isDirectory() && isController(fileData.name))
 						controllers.push(fileData);
-				};
+				};	
 				callback(controllers);
 			}
 		})
@@ -74,11 +80,6 @@ var ControllerManager = function(){
 		return controller.indexOf(controllerSufix, controller.length - controllerSufix.length) !== -1;
 	};
 
-	var register = function(app, controllerFileData){
-		var controllerFile = require('.'+controllerFileData.absolute);
-		var controllerName = toControllerName(controllerFileData.name);
-		controllerFile.controller(new Controller(new Action(app, controllerName, router)));
-	};
 
 	var toControllerName = function(file){
 		return file.substring(0, file.indexOf(controllerSufix));
@@ -90,7 +91,4 @@ var ControllerManager = function(){
 
 }
 
-var controllerManager = new ControllerManager();
-
-exports.do = controllerManager.do; 
-exports.registerAll = controllerManager.registerAll;
+exports.registerAll = new ControllerManager().registerAll;
