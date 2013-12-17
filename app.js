@@ -4,7 +4,7 @@
  */
 
 var express = require('express');
-var routes = require('./routes');
+var controller = require('./framework/controller');
 var http = require('http');
 var path = require('path');
 var app = express();
@@ -35,11 +35,11 @@ exports.bootstrap = function(){
 	  app.use(express.errorHandler());
 	}
 
-	routes.do(app, function(router, verb){
-		router.each(function(route){
-			route.verb.call(app, route.from, function(req, res){
-				res.render(route.to, route.params);
-			});
+	controller.registerAll(app, function(route){
+		route.verb.call(app, route.from, function(req, res){
+			console.log("registrando rota: "+ route);
+			route.action();
+			res.render(route.to);
 		});
 	});
 
