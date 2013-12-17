@@ -80,7 +80,6 @@ var ControllerManager = function(){
 		return controller.indexOf(controllerSufix, controller.length - controllerSufix.length) !== -1;
 	};
 
-
 	var toControllerName = function(file){
 		return file.substring(0, file.indexOf(controllerSufix));
 	};
