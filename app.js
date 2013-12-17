@@ -37,7 +37,7 @@ exports.bootstrap = function(){
 
 	controller.registerAll(app, function(route){
 		route.verb.call(app, route.from, function(req, res){
-			console.log("registrando rota: "+ route);
+			console.log("registrando rota: "+ route.from + "->" + route.to);
 			route.action();
 			res.render(route.to);
 		});

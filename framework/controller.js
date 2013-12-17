@@ -1,45 +1,18 @@
 var fs = require('fs');
-
-var Router = function(){
-	var routes = [];
-
-	var routeFor = function(data, controllerName, actionName){
-		data.from = defaults(data.from, getRouteFor(controllerName, actionName))
-		data.to = defaults(data.to, actionName);
-		routes.push(data);
-		console.log(routes);
-	};
-
-	var getRouteFor = function(controllerName, actionName){
-		return "/"+controllerName.toLowerCase()+"/"+actionName;
-	};
-
-	var each = function(callback){
-		console.log("rotas: "+routes);
-		for(var i = 0; i < routes.length; i++){
-			callback(routes[i]);
-		}
-	};
-
-	var defaults = function(received, defaultValue){
-		if(typeof received === 'undefined'){
-			return defaultValue;
-		}
-		return received;
-	};
-
-	return {
-		each : each,
-		routeFor : routeFor
-	}
-
-}
+var router = require('./router').router;
 
 var Action = function(app, controllerName, router){
 	var itsGet = app.get;
 	var controllerName = controllerName;
 
 	var get = function(data, actionName, action){
+		//data is optional
+		if(typeof action === 'undefined'){
+			action = actionName;
+			actionName = data;
+			data = {};
+		}
+
 		data.action = action;
 		data.verb = itsGet;
 		path(data, controllerName, actionName);
@@ -53,12 +26,11 @@ var Action = function(app, controllerName, router){
 		get: get
 	}
 
-
 }
 
-var Controller = function(app){
-	var create = function(controllerName, callback){
-		callback(new Action(app, controllerName, router));
+var Controller = function(action){
+	var create = function(callback){
+		callback(action);
 	};
 	return {
 		create : create
@@ -67,10 +39,13 @@ var Controller = function(app){
 
 var ControllerManager = function(){
 
+	var controllerSufix = "Controller.js";
+
 	var registerAll = function(app, callback){
 		findControllers("./controllers", function (controllers) {
 			for (var i = 0; i < controllers.length; i++) {
 				var controller = controllers[i];
+				console.log('registrando: '+controller)
 				register(app, controller);
 			};
 
@@ -84,19 +59,30 @@ var ControllerManager = function(){
 				var controllers = [];
 				for (var i = 0; i < data.length; i++) {
 					var file = root + "/" +data[i];
+					var fileData = {name: data[i], absolute: file}
+					
 					var stats = fs.statSync(file);
-					if(!stats.isDirectory())
-						controllers.push(file);
+					if(!stats.isDirectory() && isController(fileData.name))
+						controllers.push(fileData);
 				};
 				callback(controllers);
 			}
 		})
 	};
 
-	var register = function(app, controller){
-		var controllerFile = require('.'+controller);
-		controllerFile.controller(new Controller(app));
-	}
+	var isController = function(controller){
+		return controller.indexOf(controllerSufix, controller.length - controllerSufix.length) !== -1;
+	};
+
+	var register = function(app, controllerFileData){
+		var controllerFile = require('.'+controllerFileData.absolute);
+		var controllerName = toControllerName(controllerFileData.name);
+		controllerFile.controller(new Controller(new Action(app, controllerName, router)));
+	};
+
+	var toControllerName = function(file){
+		return file.substring(0, file.indexOf(controllerSufix));
+	};
 
 	return {
 		registerAll: registerAll
@@ -104,9 +90,7 @@ var ControllerManager = function(){
 
 }
 
-var router = new Router();
-var controllerManager = new ControllerManager(router);
+var controllerManager = new ControllerManager();
 
 exports.do = controllerManager.do; 
 exports.registerAll = controllerManager.registerAll;
-exports.each = router.each;
