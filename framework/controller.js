@@ -1,7 +1,7 @@
 var fs = require('fs');
 
-var Action = function(app, controllerName){
-	var itsGet = app.get;
+var Action = function(controllerName){
+	var itsGet = "GET";
 	var controllerName = controllerName;
 	var actionData = {};
 
@@ -22,7 +22,12 @@ var Action = function(app, controllerName){
 		actionData.verb = itsGet;
 	};
 
-	defaults = function(received, defaultValue){
+	var toAppFunction = function(app){
+		var methodsToFunctions = {"GET" : app.get};
+		return methodsToFunctions[actionData.verb];
+	}
+
+	var defaults = function(received, defaultValue){
 		if(typeof received === 'undefined'){
 			return defaultValue;
 		}
@@ -39,27 +44,28 @@ var Action = function(app, controllerName){
 }
 
 var ControllerManager = function(){
-
 	var controllerSufix = "Controller.js";
 
-	var registerAll = function(app, callback){
+	var eachRoute = function(callback){
 		findControllers("./controllers", function (controllers) {
-			for (var i = 0; i < controllers.length; i++) {
-				var controllerFileData = controllers[i];
-				
-				//Configuring user actions
-				var action = new Action(app, controllerFileData.name);
-				var controllerFile = require('.'+controllerFileData.absolute);
-				controllerFile.controller(action);
-				
-				action = action.data();
-				action.verb.call(app, action.from, function(req, res){
-					action.execute();
-					res.render(action.to);
-				});
-			};
+			buildRoutes(controllers, callback);
 		});
 	};
+
+	var buildRoutes = function(controllers, callback){
+		var routes = [];
+		for (var i = 0; i < controllers.length; i++) {
+			var controllerFileData = controllers[i];
+			
+			//Configuring user actions
+			var action = new Action(controllerFileData.name);
+			var controllerFile = require('.'+controllerFileData.absolute);
+			controllerFile.controller(action);
+			
+			var routeData = action.data();		
+			callback(routeData);
+		};
+	}
 
 	var findControllers = function(root, callback){
 		fs.readdir(root, function(err, data){
@@ -87,9 +93,9 @@ var ControllerManager = function(){
 	};
 
 	return {
-		registerAll: registerAll
+		eachRoute: eachRoute
 	}
 
 }
 
-exports.registerAll = new ControllerManager().registerAll;
+module.exports = ControllerManager;
