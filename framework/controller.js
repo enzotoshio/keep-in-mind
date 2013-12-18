@@ -1,5 +1,4 @@
 var fs = require('fs');
-var router = require('./router').router;
 
 var Action = function(app, controllerName){
 	var itsGet = app.get;
@@ -19,9 +18,8 @@ var Action = function(app, controllerName){
 
 		actionData.from = defaults(data.from, defaultFrom);
 		actionData.to = defaults(data.to, actionName);
-		actionData.action = action;
+		actionData.execute = action;
 		actionData.verb = itsGet;
-
 	};
 
 	defaults = function(received, defaultValue){
@@ -48,14 +46,18 @@ var ControllerManager = function(){
 		findControllers("./controllers", function (controllers) {
 			for (var i = 0; i < controllers.length; i++) {
 				var controllerFileData = controllers[i];
-				var action = new Action(app, controllerFileData.name);
 				
 				//Configuring user actions
+				var action = new Action(app, controllerFileData.name);
 				var controllerFile = require('.'+controllerFileData.absolute);
 				controllerFile.controller(action);
-				router.register(action);
+				
+				action = action.data();
+				action.verb.call(app, action.from, function(req, res){
+					action.execute();
+					res.render(action.to);
+				});
 			};
-			callback();
 		});
 	};
 
