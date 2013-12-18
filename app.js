@@ -34,7 +34,7 @@ controllerManager.eachRoute(function(action){
 
 	console.log('registrando rota para action: path:' + route.path + ' -> ejs:' + route.ejs);
 	action.verbFunction(app).call(app, route.path, function(req, res){
-		route.execute();
+		route.execute(action);
 		res.render(route.ejs);
 	});
 });
