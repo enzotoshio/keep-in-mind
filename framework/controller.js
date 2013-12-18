@@ -1,12 +1,16 @@
 var fs = require('fs');
 var client = require('./client');
 
-var Action = function(controllerName){
-	var itsGet = "GET";
-	var controllerName = controllerName;
-	var actionData = {};
-
+var ActionFactory = function(controllerName, callback){
 	var get = function(data, actionName, action){
+		path(data, actionName, action, "GET");
+	};
+
+	var post = function(data, actionName, action){
+		path(data, actionName, action, "POST");
+	};
+
+	var path = function(data, actionName, action, verb){
 		//data is optional
 		actionData = data;
 		if(typeof action === 'undefined'){
@@ -15,22 +19,19 @@ var Action = function(controllerName){
 			actionData = {};
 		}
 
-		var defaultFrom = "/"+controllerName.toLowerCase()+"/"+actionName;
+		var defaultPath = "/"+controllerName.toLowerCase()+"/"+actionName;
 
-		actionData.from = defaults(data.from, defaultFrom);
-		actionData.to = defaults(data.to, actionName);
+		actionData.path = defaults(data.path, defaultPath);
+		actionData.ejs = defaults(data.ejs, actionName);
 		actionData.execute = action;
-		actionData.verb = itsGet;
-	};
+		actionData.verb = verb;
 
-	var listener = function(callback){
-		client(actionData.from, callback);
+		callback(new Action(actionData));
 	}
 
-	var toAppFunction = function(app){
-		var methodsToFunctions = {"GET" : app.get};
-		return methodsToFunctions[actionData.verb];
-	};
+	var listener = function(callback){
+		client(actionData.path, callback);
+	}
 
 	var defaults = function(received, defaultValue){
 		if(typeof received === 'undefined'){
@@ -41,10 +42,25 @@ var Action = function(controllerName){
 
 	return {
 		get: get,
+		post: post,
+		listener: listener
+	}
+
+}
+
+var Action = function(actionData){
+	var actionData = actionData;
+	
+	var verbFunction = function(app){
+		var methodsToFunctions = {"GET" : app.get, "POST" : app.post};
+		return methodsToFunctions[actionData.verb];
+	};
+
+	return {
 		data: function(){
 			return actionData;
 		},
-		listener: listener
+		verbFunction: verbFunction
 	}
 
 }
@@ -64,12 +80,9 @@ var ControllerManager = function(){
 			var controllerFileData = controllers[i];
 			
 			//Configuring user actions
-			var action = new Action(controllerFileData.name);
+			var action = new ActionFactory(controllerFileData.name, callback);
 			var controllerFile = require('.'+controllerFileData.absolute);
 			controllerFile.controller(action);
-			
-			var routeData = action.data();		
-			callback(routeData);
 		};
 	}
 

@@ -1,6 +1,6 @@
 
 exports.controller = function(action){
-	action.get({from:"/card"}, "card", function(){
+	action.get({path:"/card"}, "card", function(){
 		console.log("acessei uma carta");
 
 		action.listener(function(client){

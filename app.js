@@ -29,11 +29,13 @@ if ('development' == app.get('env')) {
 }
 
 var controllerManager = new ControllerManager(app);
-controllerManager.eachRoute(function(route){
-	console.log('registrando rota para action: from:' + route.from + ' -> to:' + route.to);
-	app.get(route.from, function(req, res){
+controllerManager.eachRoute(function(action){
+	var route = action.data();
+
+	console.log('registrando rota para action: path:' + route.path + ' -> ejs:' + route.ejs);
+	action.verbFunction(app).call(app, route.path, function(req, res){
 		route.execute();
-		res.render(route.to);
+		res.render(route.ejs);
 	});
 });
 
