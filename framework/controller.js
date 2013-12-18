@@ -1,4 +1,5 @@
 var fs = require('fs');
+var client = require('./client');
 
 var Action = function(controllerName){
 	var itsGet = "GET";
@@ -22,10 +23,14 @@ var Action = function(controllerName){
 		actionData.verb = itsGet;
 	};
 
+	var listener = function(callback){
+		client(actionData.from, callback);
+	}
+
 	var toAppFunction = function(app){
 		var methodsToFunctions = {"GET" : app.get};
 		return methodsToFunctions[actionData.verb];
-	}
+	};
 
 	var defaults = function(received, defaultValue){
 		if(typeof received === 'undefined'){
@@ -38,7 +43,8 @@ var Action = function(controllerName){
 		get: get,
 		data: function(){
 			return actionData;
-		} 
+		},
+		listener: listener
 	}
 
 }
