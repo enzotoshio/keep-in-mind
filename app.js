@@ -34,6 +34,7 @@ controllerManager.eachRoute(function(action){
 	console.log('registrando rota para action: path:' + route.path + ' -> result:' + route.result);
 	console.log(route);
 	action.verbFunction(app).call(app, route.path, function(req, res){
+		console.log(req);
 		route.execute(action);
 
 		result.decideWhereToGo(res, route.result);
