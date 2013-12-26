@@ -9,7 +9,8 @@ var path = require('path');
 var app = express();
 var server = http.createServer(app);
 var io = require("socket.io").listen(server);
-var ControllerManager = require('./framework/controller');
+var controllerManager = require('./framework/controller')(app);
+var result = require('./framework/result');
 
 // all environments
 app.set('port', process.env.PORT || 3000);
@@ -27,15 +28,16 @@ app.use(express.static(path.join(__dirname, 'public')));
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
-
-var controllerManager = new ControllerManager(app);
 controllerManager.eachRoute(function(action){
 	var route = action.data();
 
-	console.log('registrando rota para action: path:' + route.path + ' -> ejs:' + route.ejs);
+	console.log('registrando rota para action: path:' + route.path + ' -> result:' + route.result);
+	console.log(route);
 	action.verbFunction(app).call(app, route.path, function(req, res){
 		route.execute(action);
-		res.render(route.ejs);
+
+		result.decideWhereToGo(res, route.result);
+		
 	});
 });
 

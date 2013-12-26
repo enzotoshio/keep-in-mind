@@ -21,11 +21,11 @@ var ActionFactory = function(controllerName, callback){
 		var defaultPath = "/"+controllerName.toLowerCase()+"/"+actionName;
 
 		actionData.path = defaults(data.path, defaultPath);
-		actionData.ejs = defaults(data.ejs, actionName);
+		actionData.result = defaults(data.result, actionName);
 		actionData.execute = action;
 		actionData.verb = verb;
 
-		callback(new Action(actionData));
+		callback(new ActionHelper(actionData));
 	};
 
 	var defaults = function(received, defaultValue){
@@ -42,7 +42,7 @@ var ActionFactory = function(controllerName, callback){
 
 }
 
-var Action = function(actionData){
+var ActionHelper = function(actionData){
 	var actionData = actionData;
 	
 	var verbFunction = function(app){
@@ -54,12 +54,17 @@ var Action = function(actionData){
 		client(actionData.path, callback);
 	};
 
+	var result = function(where){
+		actionData.result = where;
+	};
+
 	return {
 		data: function(){
 			return actionData;
 		},
 		listener: listener,
-		verbFunction: verbFunction
+		verbFunction: verbFunction,
+		result: result
 	}
 
 }

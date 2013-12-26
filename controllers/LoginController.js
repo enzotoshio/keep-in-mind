@@ -1,11 +1,14 @@
-exports.controller = function(action){
 
-	action.get({path:"/"}, "login", function(){
-		console.log('pagina de login');
+exports.controller = function(actions){
+
+	actions.get({path:"/"}, "home", function(){
+		console.log('pagina principal');
 	});
 	
-	action.post({path:"/login"}, "login", function(){
-		console.log('pagina de login');
+	actions.post({path:"/signin"}, "signin", function(actionHelper, data){
+		console.log("cadastra");
+		console.log(data);
+		actionHelper.result("nothing");
 	});
 	
 };

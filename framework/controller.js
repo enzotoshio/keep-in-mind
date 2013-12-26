@@ -53,4 +53,6 @@ var ControllerManager = function(){
 
 }
 
-module.exports = ControllerManager;
+module.exports = function(app){
+	return new ControllerManager(app);
+}
