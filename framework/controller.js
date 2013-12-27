@@ -1,46 +1,37 @@
 var fs = require('fs');
 var ActionFactory = require('./actionFactory'); 
+var lookuper = require('./lookuper'); 
 
 var ControllerManager = function(){
 	var controllerSufix = "Controller.js";
 
 	var eachRoute = function(callback){
-		findControllers("./controllers", function (controllers) {
-			buildRoutes(controllers, callback);
+		lookuper.findFiles({
+			at: "./controllers",
+			matching: function(fileData){
+				return !fileData.stats.isDirectory() && isController(fileData.name);
+			},
+			andDo: function(controllers) {
+				configureActions(controllers, callback);
+			}
 		});
 	};
 
-	var buildRoutes = function(controllers, callback){
-		var routes = [];
+	var configureActions = function(controllers, callback){
 		for (var i = 0; i < controllers.length; i++) {
 			var controllerFileData = controllers[i];
-			
-			//Configuring user actions
-			var action = new ActionFactory(controllerFileData.name, callback);
+			console.log('configuring: '+controllerFileData);
+			var controllerName = toControllerName(controllerFileData.name);
+			var action = new ActionFactory(controllerName, callback);
 			var controllerFile = require('.'+controllerFileData.absolute);
-			controllerFile.controller(action);
+			//This call the controller that the user exported
+			controllerFile.controller(action); 
 		};
 	}
 
-	var findControllers = function(root, callback){
-		fs.readdir(root, function(err, data){
-			if(typeof data !== 'undefined'){
-				var controllers = [];
-				for (var i = 0; i < data.length; i++) {
-					var file = root + "/" +data[i];
-					var fileData = {name: data[i], absolute: file}
-					
-					var stats = fs.statSync(file);
-					if(!stats.isDirectory() && isController(fileData.name))
-						controllers.push(fileData);
-				};	
-				callback(controllers);
-			}
-		})
-	};
-
 	var isController = function(controller){
-		return controller.indexOf(controllerSufix, controller.length - controllerSufix.length) !== -1;
+		var lastPartOfControllerName = controller.substring(controller.length - controllerSufix.length, controller.length);
+		return lastPartOfControllerName === controllerSufix;
 	};
 
 	var toControllerName = function(file){

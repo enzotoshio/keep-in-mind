@@ -2,7 +2,8 @@
 var binded = []
 
 module.exports = function(where, callback){
-	if(typeof binded[binded.indexOf(where)] === 'undefined'){
+	var notBindedYet = typeof binded[binded.indexOf(where)] === 'undefined';
+	if(notBindedYet){
 		var io = require("../app.js").io;
 		io.of(where).on("connection", function(client){
 			callback(client)
