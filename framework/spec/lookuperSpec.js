@@ -1,5 +1,4 @@
 var lookuper = require('../lookuper');
-var lookuper = require('../lookuper');
 
 describe("Lookuper", function(){
 
