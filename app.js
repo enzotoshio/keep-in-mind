@@ -10,6 +10,7 @@ var app = express();
 var server = http.createServer(app);
 var io = require("socket.io").listen(server);
 var controllerManager = require('./framework/controller')(app);
+var prettifier = require('./framework/paramPrettifier');
 var result = require('./framework/result');
 
 // all environments
@@ -34,12 +35,16 @@ controllerManager.eachRoute(function(action){
 	console.log('registrando rota para action: path:' + route.path + ' -> result:' + route.result);
 	console.log(route);
 	action.verbFunction(app).call(app, route.path, function(req, res){
-		route.execute(action);
+
+		var data = prettifier.prettify(req.body);
+		route.execute(action, data);
 
 		result.decideWhereToGo(res, route.result);
 		
 	});
 });
+
+
 
 io.enable("browser client minification");
 io.enable("browser client etag");
