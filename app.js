@@ -39,7 +39,7 @@ controllerManager.eachRoute(function(action){
 		action.parameters = prettifier.prettify(req.body); 
 		route.execute(action);
 
-		result.decideWhereToGo(res, route.result);
+		result.goToSomewhere(res, route.result, route.includes);
 		
 	});
 });

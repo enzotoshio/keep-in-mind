@@ -6,19 +6,19 @@ var Result = function(){
 		}
 	}
 
-	var decideWhereToGo = function(res, where){
+	var goToSomewhere = function(res, where, data){
 		var preSet = preSetOptions[where];
 		if(typeof(preSet) !== 'undefined'){
 			preSet(res);
 			return;
 		}
 
-		res.render(where);
+		res.render(where, data);
 
 	}
 
 	return {
-		decideWhereToGo: decideWhereToGo
+		goToSomewhere: goToSomewhere
 	}
 }
 

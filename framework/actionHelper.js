@@ -15,6 +15,10 @@ var ActionHelper = function(actionData){
 		nothing: function(){
 			actionData.result = "nothing";
 		}
+	};
+	
+	var includes = function(data){
+		actionData.includes = data;
 	}
 
 	return {
@@ -23,7 +27,8 @@ var ActionHelper = function(actionData){
 		},
 		listener: listener,
 		verbFunction: verbFunction,
-		result: result
+		result: result,
+		includes: includes
 	}
 
 }
