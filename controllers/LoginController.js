@@ -5,10 +5,10 @@ exports.controller = function(actions){
 		console.log('pagina principal');
 	});
 	
-	actions.post({path:"/signin"}, "signin", function(actionHelper, data){
+	actions.post({path:"/signin"}, "signin", function(actionHelper){
 		console.log("logando");
-		console.log(data);
-		actionHelper.result("nothing");
+		console.log(actionHelper.parameters);
+		actionHelper.result.nothing();
 	});
 	
 };

@@ -11,9 +11,11 @@ var ActionHelper = function(actionData){
 		client(actionData.path, callback);
 	};
 
-	var result = function(where){
-		actionData.result = where;
-	};
+	var result = { 
+		nothing: function(){
+			actionData.result = "nothing";
+		}
+	}
 
 	return {
 		data: function(){
