@@ -29,22 +29,20 @@ app.use(express.static(path.join(__dirname, 'public')));
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
+
 controllerManager.eachRoute(function(action){
 	var route = action.data();
 
 	console.log('registrando rota para action: path:' + route.path + ' -> result:' + route.result);
 	console.log(route);
 	action.verbFunction(app).call(app, route.path, function(req, res){
-
-		var data = prettifier.prettify(req.body);
-		route.execute(action, data);
+		action.parameters = prettifier.prettify(req.body); 
+		route.execute(action);
 
 		result.decideWhereToGo(res, route.result);
 		
 	});
 });
-
-
 
 io.enable("browser client minification");
 io.enable("browser client etag");
