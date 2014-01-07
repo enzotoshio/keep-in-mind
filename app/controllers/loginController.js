@@ -1,7 +1,7 @@
 exports.controller = function(actions){
 	var mongoose = require("mongoose");
 
-	var User = mongoose.model('User', userSchema);
+	var User = mongoose.model('User');
 
 	actions.get({path:"/"}, "home", function(){
 		console.log('pagina principal');

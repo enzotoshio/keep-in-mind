@@ -7,4 +7,4 @@ module.exports = mongoose.model('User', new mongose.Schema({
 	password: String
 }));
 
-
+var User = mongoose.model('User', userSchema);
