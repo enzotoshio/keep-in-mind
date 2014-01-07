@@ -4,8 +4,15 @@ exports.controller = function(actions){
 		console.log('pagina principal');
 	});
 	
-	actions.post({path:"/signin"}, "signin", function(actionHelper){
+	actions.post({path:"/login"}, "login", function(actionHelper){
 		console.log("logando");
+		console.log(actionHelper.parameters);
+		actionHelper.includes(actionHelper.parameters);
+		actionHelper.result.nothing();
+	});
+
+	actions.post({path:"/signup"}, "signup", function(actionHelper){
+		console.log("cadastrando");
 		console.log(actionHelper.parameters);
 		actionHelper.includes(actionHelper.parameters);
 		actionHelper.result.nothing();
