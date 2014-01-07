@@ -1,4 +1,4 @@
-var mongoose = require("../framework/mongooseConnection.js").connect(); 
+var mongoose = require("mongoose");
 
 
 module.exports = mongoose.model('User', new mongose.Schema({
