@@ -1,14 +1,7 @@
+var mongoose = require ("mongoose");
 
-exports.connect = function(){
-
-
-	var uristring =
-		process.env.MONGOLAB_URI ||
-		process.env.MONGOHQ_URL ||
-		'mongodb://localhost/keepinmind';
-
-	var theport = process.env.PORT || 27017;
-
+module.exports = function(config){
+	var uristring = config.db;
 	mongoose.connect(uristring, function (err, res) {
 	  if (err) {
 		console.log ('ERROR connecting to: ' + uristring + '. ' + err);
@@ -16,6 +9,4 @@ exports.connect = function(){
 	  	console.log ('Succeeded connected to: ' + uristring);
 	  }
 	});
-
-
 }

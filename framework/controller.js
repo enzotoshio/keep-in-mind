@@ -7,7 +7,7 @@ var ControllerManager = function(){
 
 	var eachRoute = function(callback){
 		lookuper.findFiles({
-			at: "./controllers",
+			at: './app/controllers',
 			matching: function(fileData){
 				return !fileData.stats.isDirectory() && isController(fileData.name);
 			},
@@ -24,7 +24,7 @@ var ControllerManager = function(){
 			var controllerName = toControllerName(controllerFileData.name);
 			var action = new ActionFactory(controllerName, callback);
 			var controllerFile = require('.'+controllerFileData.absolute);
-			//This call the controller that the user exported
+			//This call the controller exported by the user
 			controllerFile.controller(action); 
 		};
 	}
