@@ -11,10 +11,4 @@ exports.controller = function(actions){
 		actionHelper.result.nothing();
 	});
 
-	actions.post({path:"/signup"}, "signup", function(actionHelper, data){
-		console.log("logando");
-		console.log(data);
-		actionHelper.result("nothing");
-	});
-	
 };
