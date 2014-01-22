@@ -1,8 +1,6 @@
 exports.controller = function(actions){
 	var mongoose = require("mongoose");
 
-	var User = mongoose.model('User');
-
 	actions.get({path:"/"}, "home", function(){
 		console.log('pagina principal');
 	});
@@ -10,7 +8,6 @@ exports.controller = function(actions){
 	actions.post({path:"/login"}, "login", function(actionHelper){
 		console.log("logando");
 		console.log(actionHelper.parameters);
-		console.log(User);
 		actionHelper.includes(actionHelper.parameters);
 		actionHelper.result.nothing();
 	});

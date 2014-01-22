@@ -528,6 +528,32 @@ body {
 	margin-top: 15px;
 }
 
+/* ABOUT US */
+
+.page-title {
+	color: #FFFFFF;
+	font-size: 3em;
+	font-weight: bold;
+	text-shadow: 2px 2px 5px #000000;
+	line-height: 1em;
+}
+
+.textual-question {
+	color: #FFFFFF;
+	font-size: 1.5em;
+	font-weight: bold;
+	text-shadow: 2px 2px 5px #000000;
+	line-height: 1.5em;
+}
+
+.textual-answer {
+	color: #FFFFFF;
+	font-size: 1.5em;
+	font-weight: bold;
+	text-shadow: 2px 2px 5px #000000;
+	line-height: 1.5em;
+}
+
 /* FORM */
 
 .form-title {

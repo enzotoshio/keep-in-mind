@@ -1,0 +1,49 @@
+<% layout('layout') %>
+
+<header class="main-header">
+  <section class="main-logo-container">
+    <h1 class="main-logo">
+      K<span>eep in </span>M<span>ind</span>
+    </h1>
+  </section>
+  <section class="controls">
+    <a href="#" class="login-button">Login</a>
+  </section>
+  <section class="dropdown registration-dropdown">
+    <form action="/login" class="form" method="post">
+      <label class="form-line form-label">Email</label>
+      <input type="text" name="loginEmail" class="text-field form-line" />
+      <label class="form-line form-label">Password</label>
+      <input type="password" name="loginPassword" class="text-field form-line" />
+      <button class="button three-d-button sign-in-button">Sign in</button>
+    </form>
+  </section>
+</header>
+<main class="content">
+  <section class="main-content auto-margin-container min-resolution">
+    <h2 class="page-title">About Keep in Mind</h2>
+    <p class="textual-question">So... what is "Keep in Mind" and what does it offer?</p>
+    <p class="textual-answer"> Well, I could say it is a system to help you study... but it can go far beyond that, so feel free to use it for what you like, to help with your work, study, having fun, etc.</p>
+    <section class="registration-container">
+      <section class="create-account-container">
+        <form action="/signup" class="form" method="post">
+          <label class="form-line form-label">Name</label>
+          <input type="text" name="user.name" class="text-field form-line" />
+          <label class="form-line form-label">Email</label>
+          <input type="text" name="user.email" class="text-field form-line" />
+          <label class="form-line form-label">Password</label>
+          <input type="password" name="user.password" class="text-field form-line" />
+          <button class="button three-d-button sign-up-button">Sign up</button>
+        </form>
+      </section>
+      <section class="social-account-container">
+        <div class="button three-d-button social-button">Sign up with Facebook</div>
+        <div class="button three-d-button social-button">Sign up with Google+</div>
+        <div class="social-acount-text">
+          <p>One simple click to sign up and use all the Keep in Mind system!</p>
+          <p>Your informations are private and won't be revealed.</p>
+        </div>
+      </section>
+    </section>
+  </section>
+</main>
