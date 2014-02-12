@@ -11,16 +11,6 @@ var ParamPrettifier = function(){
 		return data;
 	};
 
-// {user.name : leo}
-// data.user = {}
-// data.user.name = leo
-
-// {user.card.title : fuu}
-// data.user = {}
-// user.card = {}
-// data.user = user
-// data.user.card.title = fuu
-
 	var appendToData = function(data, propertyName, propertyValue){
 		isObject = propertyName.indexOf('.')!=-1;
 		console.log("property: "+propertyName);
@@ -37,8 +27,6 @@ var ParamPrettifier = function(){
 		console.log(data);
 
 		appendToData(data[customObject.prefix], customObject.property, propertyValue)
-
-		// data[customObject.prefix][customObject.propertyName] = propertyValue;
 	}
 
 	var toCustomObject = function(property){
