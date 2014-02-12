@@ -8,7 +8,6 @@ module.exports = function(app, config) {
     app.set('port', config.port);
     app.engine('ejs', engine);
     app.set('view engine', 'ejs');
-    console.log('view:' +config.app.root + "/app/views")
     app.set('views', config.app.root + "/app/views");
     app.use(express.favicon());
     app.use(express.logger('dev'));
