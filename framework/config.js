@@ -1,19 +1,24 @@
 var controllerManager = require('./controller');
 var prettifier = require('./paramPrettifier');
-var result = require('./result');
+var ActionHelper = require('./actionHelper');
+var Result = require('./result')
+var verbFunction = function (app, verb){
+	var methodsToFunctions = {"GET" : app.get, "POST" : app.post};
+	return methodsToFunctions[verb];
+}
 
 module.exports = function(app){
-	controllerManager(app).eachRoute(function(action){
-		var route = action.data();
+	console.log('registrando rotas para actions:');
+	controllerManager(app).eachRoute(function(actionConfiguration){
+		var actionData = actionConfiguration.data();
+		verbFunction(app, actionData.verb).call(app, actionData.path, function(req, res){
+			actionData.parameters = prettifier.prettify(req.body);
 
-		console.log('registrando rota para action: path:' + route.path + ' -> result:' + route.result);
-		console.log(route);
-		action.verbFunction(app).call(app, route.path, function(req, res){
-			action.parameters = prettifier.prettify(req.body); 
-			route.execute(action);
-
-			result.goToSomewhere(res, route.result, route.includes);
+			var actionHelper = new ActionHelper(actionData);
+			actionData.execute(actionHelper);
 			
+			var result = new Result(actionData);
+			result.goToSomewhere(res);
 		});
 	});
 }

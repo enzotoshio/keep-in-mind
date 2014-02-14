@@ -1,20 +1,21 @@
 
-var Result = function(){
-	preSetOptions = {
+var Result = function(actionData){
+	var preSetOptions = {
 		nothing: function(res){
 			res.send(200);
 		}
-	}
+	};
 
-	var goToSomewhere = function(res, where, data){
-		var preSet = preSetOptions[where];
+	var goToSomewhere = function(res){
+		var baseDir = actionData.view.base;
+		var viewName = actionData.view.name;
+
+		var preSet = preSetOptions[viewName];
 		if(typeof(preSet) !== 'undefined'){
 			preSet(res);
 			return;
 		}
-
-		res.render(where, data);
-
+		res.render(actionData.view.full(), actionData.includes);
 	}
 
 	return {
@@ -22,4 +23,4 @@ var Result = function(){
 	}
 }
 
-module.exports = new Result();
+module.exports = Result;

@@ -1,44 +1,53 @@
-var ActionHelper = require('./actionHelper');
+var ActionConfiguration = require('./actionConfiguration');
+var manipulator = require('./urlManipulator');
+var defaulter = require('./defaulter');
 
 var ActionFactory = function(controllerName, callback){
-	var get = function(data, actionName, action){
-		path(data, actionName, action, "GET");
+	var baseUri = function(uri){
+		this.baseUri = uri;
+	}
+
+	var baseViewDir = function(dir){
+		this.baseViewDir = dir;
+	}
+
+	var get = function(path, action){
+		newRoute(path, action, "GET");
 	};
 
-	var post = function(data, actionName, action){
-		path(data, actionName, action, "POST");
+	var post = function(path, action){
+		newRoute(path, action, "POST");
 	};
 
-	var path = function(data, actionName, action, verb){
-		//data is optional
-		actionData = data;
-		if(typeof action === 'undefined'){
-			action = actionName;
-			actionName = data;
-			actionData = {};
-		}
+	var newRoute = function(path, action, verb){
+		data = {};
 
-		var defaultPath = "/"+controllerName.toLowerCase()+"/"+actionName;
+		var baseUri = defaulter.defaults(this.baseUri, "");
+		var actionName = manipulator.lastNameFor(path);
 
-		actionData.path = defaults(data.path, defaultPath);
-		actionData.result = defaults(data.result, actionName);
-		actionData.execute = action;
-		actionData.verb = verb;
+		data.path = baseUri + path;
+		data.execute = action;
+		data.verb = verb;
+		data.view = {
+			base : defaulter.defaults(this.baseViewDir, controllerName),
+			name : actionName,
+			full : function(){
+				return this.base + "/" + this.name;
+			}
+		} 
+		data.includes = [];
 
-		callback(new ActionHelper(actionData));
+		callback(new ActionConfiguration(data));
 	};
 
-
-	var defaults = function(received, defaultValue){
-		if(typeof received === 'undefined'){
-			return defaultValue;
-		}
-		return received;
-	};
 
 	return {
 		get: get,
-		post: post
+		post: post,
+		base: function(data){
+			baseViewDir = data.baseViewDir,
+			baseUri = data.baseUri
+		},
 	}
 
 }

@@ -1,6 +1,7 @@
 var User = require("../models/user.js");
 
 exports.controller = function(actions){
+	
 	actions.get("/", function(actionHelper){
 		console.log('pagina principal');
 		actionHelper.result.view("home");

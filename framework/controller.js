@@ -23,9 +23,12 @@ var ControllerManager = function(){
 			console.log('configuring: '+controllerFileData);
 			var controllerName = toControllerName(controllerFileData.name);
 			var action = new ActionFactory(controllerName, callback);
-			var controllerFile = require('.'+controllerFileData.absolute);
+			
 			//This call the controller exported by the user
+			var controllerFile = require('.'+controllerFileData.absolute);
 			controllerFile.controller(action); 
+
+			
 		};
 	}
 
