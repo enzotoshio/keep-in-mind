@@ -9,8 +9,6 @@ var ObjectConcatenator = function(){
 		return fullObject;
 	}
 
-	// [{usuario : {nome : "nome"}}, {usuario : {password: "password"}}] 
-	// {}
 	var add = function(fullObject, object){
 		for(var propertyName in object){
 			var propertyAlreadySet = typeof fullObject[propertyName] !== "undefined";
