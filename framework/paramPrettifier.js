@@ -4,27 +4,19 @@ var ParamPrettifier = function(){
 		var data = {};
 		for(var propertyName in body){
 			appendToData(data, propertyName, body[propertyName]);
-			console.log('resultado:')
-			console.log(data);
-			console.log('-------')
 		}
 		return data;
 	};
 
 	var appendToData = function(data, propertyName, propertyValue){
 		isObject = propertyName.indexOf('.')!=-1;
-		console.log("property: "+propertyName);
 		if(!isObject){
 			data[propertyName] = propertyValue;	
-			console.log("setei o valor: ");
-			console.log(data);
 			return
 		}
 
 		var customObject = toCustomObject(propertyName);
 		initialize(data, customObject.prefix);
-		console.log("era objeto");
-		console.log(data);
 
 		appendToData(data[customObject.prefix], customObject.property, propertyValue)
 	}
