@@ -1,6 +1,6 @@
 
 exports.controller = function(actions){
-	actions.get("/example-card", function(actionHelper){
+	this.exampleCard = actions.get("/example-card", function(actionHelper){
 		console.log("acessei uma carta");
 
 		actionHelper.listener(function(client){
@@ -9,10 +9,14 @@ exports.controller = function(actions){
 				client.broadcast.emit("flip");
 			})
 		});
+
+		actionHelper.includes({cardName : "Example"});
+		actionHelper.result.view("card");
 	});
 
-	actions.get("/card/:cardName", function(actionHelper){
+	this.card = actions.get("/card/:cardName", function(actionHelper){
 		actionHelper.includes(actionHelper.parameters)
+
 		actionHelper.listener(function(client){
 			client.on("flipped", function(){
 				console.log("FLIPOU")

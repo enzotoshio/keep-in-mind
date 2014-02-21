@@ -2,19 +2,19 @@ var User = require("../models/user.js");
 
 exports.controller = function(actions){
 	
-	actions.get("/", function(actionHelper){
+	this.index = actions.get("/", function(actionHelper){
 		console.log('pagina principal');
 		actionHelper.result.view("home");
 	});
 	
-	actions.post("/login", function(actionHelper){
+	this.login = actions.post("/login", function(actionHelper){
 		console.log("logando");
 		console.log(actionHelper.parameters);
 		actionHelper.includes(actionHelper.parameters);
 		actionHelper.result.nothing();
 	});
 
-	actions.post("/signup", function(actionHelper){
+	this.signup = actions.post("/signup", function(actionHelper){
 		console.log("cadastrando");
 		console.log(actionHelper.parameters);
 		

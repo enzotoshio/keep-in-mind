@@ -10,8 +10,7 @@ var verbFunction = function (app, verb){
 
 module.exports = function(app){
 	console.log('registrando rotas para actions:');
-	controllerManager(app).eachRoute(function(actionConfiguration){
-		var actionData = actionConfiguration.data();
+	controllerManager(app).eachRoute(function(actionData){
 		verbFunction(app, actionData.verb).call(app, actionData.path, function(req, res){
 			var allParams = objectConcatenator.concatenate([req.params, req.body, req.query]);
 
