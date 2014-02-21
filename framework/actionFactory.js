@@ -35,7 +35,7 @@ var ActionFactory = function(controllerName, callback){
 				return this.base + "/" + this.name;
 			}
 		} 
-		data.includes = [];
+		data.includes = {};
 
 		callback(new ActionConfiguration(data));
 	};

@@ -11,9 +11,8 @@ exports.controller = function(actions){
 		});
 	});
 
-	actions.get("/card/:name", function(actionHelper){
-		console.log(actionHelper.parameters);
-
+	actions.get("/card/:cardName", function(actionHelper){
+		actionHelper.includes(actionHelper.parameters)
 		actionHelper.listener(function(client){
 			client.on("flipped", function(){
 				console.log("FLIPOU")

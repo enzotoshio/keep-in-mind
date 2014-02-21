@@ -8,7 +8,7 @@ var ActionHelper = function(actionData){
 		},
 
 		includes: function(data){
-			actionData.includes.push(data);
+			actionData.includes = data;
 		},
 
 		parameters: actionData.parameters,

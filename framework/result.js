@@ -15,6 +15,8 @@ var Result = function(actionData){
 			preSet(res);
 			return;
 		}
+		console.log("Includes; ");
+		console.log(actionData.includes);
 		res.render(actionData.view.full(), actionData.includes);
 	}
 
