@@ -5,8 +5,16 @@ var UrlManipulator = function(){
 	// it will return "path"
 	var lastNameFor = function(url){
 		var parts = url.split("/");
-		return parts[parts.length-1];
+		return getLastUrlPart(parts);
 
+	};
+
+	var getLastUrlPart = function(parts){
+		for (var i = parts.length-1; i >= 0; i--) {
+			var part = parts[i];
+			var isAParameter = part.indexOf(":") != -1;
+			if(!isAParameter) return part;
+		}
 	};
 
 	return {

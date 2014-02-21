@@ -14,9 +14,15 @@ describe("UrlManipulator", function(){
 		done();
 	});
 
-	it("should get the last level always", function(done){
+	it("should get the last level", function(done){
 		var lastName = manipulator.lastNameFor("/other/myUrl/oh/my/god/so/much/levels");
 		expect(lastName).toEqual("levels");
+		done();
+	});
+
+	it("should not get the last level if its a parameter", function(done){
+		var lastName = manipulator.lastNameFor("/other/myUrl/oh/my/god/so/much/:levels");
+		expect(lastName).toEqual("much");
 		done();
 	});
 

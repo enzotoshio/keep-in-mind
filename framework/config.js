@@ -1,5 +1,6 @@
 var controllerManager = require('./controller');
 var prettifier = require('./paramPrettifier');
+var objectConcatenator = require('./objectConcatenator');
 var ActionHelper = require('./actionHelper');
 var Result = require('./result')
 var verbFunction = function (app, verb){
@@ -12,7 +13,9 @@ module.exports = function(app){
 	controllerManager(app).eachRoute(function(actionConfiguration){
 		var actionData = actionConfiguration.data();
 		verbFunction(app, actionData.verb).call(app, actionData.path, function(req, res){
-			actionData.parameters = prettifier.prettify(req.body);
+			var allParams = objectConcatenator.concatenate([req.params, req.body, req.query]);
+
+			actionData.parameters = prettifier.prettify(allParams);
 
 			var actionHelper = new ActionHelper(actionData);
 			actionData.execute(actionHelper);
