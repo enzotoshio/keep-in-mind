@@ -18,9 +18,18 @@ var ActionHelper = function(actionData){
 				actionData.view.name = "nothing";
 			},
 			view : function(view){
-				actionData.view.name = view;
+
+				if(typeof view !== 'object'){
+					actionData.view.name = view;
+					return;
+				}
+
+				actionData.view.name = view.path;
+				if(typeof view.controller !== 'undefined')
+					actionData.view.base = view.controller;
+
 			}
-		},
+		}
 
 	}
 

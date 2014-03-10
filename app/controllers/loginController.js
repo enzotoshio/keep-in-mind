@@ -24,7 +24,7 @@ exports.controller = function(actions){
 		});
 		
 		actionHelper.includes(actionHelper.parameters);
-		actionHelper.result.nothing();
+		actionHelper.result.redirect({controller: "card", path: "card"});
 	});
 
 };
